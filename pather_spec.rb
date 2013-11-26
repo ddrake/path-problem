@@ -177,7 +177,7 @@ describe Pather do
         ........................
       EOS
       expect{ Pather.new(@input.lines).draw }.
-        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+        to raise_error "Incorrect number of hash symbols -- expected exactly two"
     end
   end
   describe "with only one hash character" do
@@ -188,7 +188,7 @@ describe Pather do
         ........................
       EOS
       expect{ Pather.new(@input.lines).draw }.
-        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+        to raise_error "Incorrect number of hash symbols -- expected exactly two"
     end
   end
   describe "with more than two hash characters (on three lines)" do
@@ -199,7 +199,7 @@ describe Pather do
         ..................#.....
       EOS
       expect{ Pather.new(@input.lines).draw }.
-        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+        to raise_error "Incorrect number of hash symbols -- expected exactly two"
     end
   end
   describe "with more than two hash characters (on two lines)" do
@@ -210,7 +210,7 @@ describe Pather do
         ........................
       EOS
       expect{ Pather.new(@input.lines).draw }.
-        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+        to raise_error "Incorrect number of hash symbols -- expected exactly two"
     end
   end
   describe "with more than two hash characters (on one line)" do
@@ -221,7 +221,7 @@ describe Pather do
         ........................
       EOS
       expect{ Pather.new(@input.lines).draw }.
-        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+        to raise_error "Incorrect number of hash symbols -- expected exactly two"
     end
   end
 end
