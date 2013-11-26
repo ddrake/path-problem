@@ -170,4 +170,58 @@ describe Pather do
       expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
+  describe "with no hash characters" do
+    it "should raise an error" do
+      @input = <<-EOS.gsub(/^ {8}/, '')
+        ........................
+        ........................
+      EOS
+      expect{ Pather.new(@input.lines).draw }.
+        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+    end
+  end
+  describe "with only one hash character" do
+    it "should raise an error" do
+      @input = <<-EOS.gsub(/^ {8}/, '')
+        ........................
+        ....#...................
+        ........................
+      EOS
+      expect{ Pather.new(@input.lines).draw }.
+        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+    end
+  end
+  describe "with more than two hash characters (on three lines)" do
+    it "should raise an error" do
+      @input = <<-EOS.gsub(/^ {8}/, '')
+        ..............#.........
+        ....#...................
+        ..................#.....
+      EOS
+      expect{ Pather.new(@input.lines).draw }.
+        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+    end
+  end
+  describe "with more than two hash characters (on two lines)" do
+    it "should raise an error" do
+      @input = <<-EOS.gsub(/^ {8}/, '')
+        ..............#.........
+        ....#............#......
+        ........................
+      EOS
+      expect{ Pather.new(@input.lines).draw }.
+        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+    end
+  end
+  describe "with more than two hash characters (on one line)" do
+    it "should raise an error" do
+      @input = <<-EOS.gsub(/^ {8}/, '')
+        ........................
+        ....#.....#......#......
+        ........................
+      EOS
+      expect{ Pather.new(@input.lines).draw }.
+        to raise_error "Incorrect number of hash symbols.  Expected exactly two."
+    end
+  end
 end
