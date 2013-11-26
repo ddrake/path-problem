@@ -1,4 +1,4 @@
-# Given an array of lines of text which contains exactly two hash (#) characters
+# Given an array of lines of text which contains exactly two hash (#) characters,
 # replace existing characters with stars (*) to produce a path connecting
 # the hash characters.  
 # The vertical component of the path (if any) is drawn first, then the horizontal
@@ -8,42 +8,47 @@ class Pather
   PATH_CHAR = '*'
 
   def initialize(lines)
-    @lines = lines
+    @lines = lines.to_a
   end
 
-  def with_path
-    draw_path
+  def draw
+    update_lines
     @lines.join('')
   end
 
-  def draw_path
+  def update_lines
     line_info = lines_containing_hash_chars.flatten
-
     if line_info.count == 3
       # hash characters are on the same line
       start_line, start_char, end_char = *line_info
       end_line = start_line
-    elsif line_info.count == 4
+    elsif line_info.count == 4 && lines_containing_hash_chars.count == 2
       # hash characters are on different lines
       start_line, start_char, end_line, end_char = *line_info
     else
-      raise "File contains an incorrect number of hash symbols.  Expected exactly two."
+      raise "Incorrect number of hash symbols.  Expected exactly two."
     end
-    left_to_right = start_char <= end_char
+    l_to_r = start_char <= end_char
+    skip_first = line_info.count == 3
     draw_vertical(start_line, end_line, start_char)
-    draw_horizontal(start_char, end_char, end_line, left_to_right, line_info.count == 3)
+    draw_horizontal(start_char, end_char, end_line, l_to_r, skip_first)
   end
 
+  # draw the vertical portion of the path (if any)
   def draw_vertical(start_line, end_line, start_char)
-    (start_line + 1).upto(end_line - 1) { |line_idx| @lines[line_idx][start_char] = PATH_CHAR }
+    (start_line + 1).upto(end_line - 1) do |line_idx| 
+      @lines[line_idx][start_char] = PATH_CHAR 
+    end
   end
 
-  def draw_horizontal(start_char, end_char, end_line, left_to_right, skip_first_char)
-    if left_to_right
-      start_char = skip_first_char ? start_char + 1 : start_char
-      start_char.upto(end_char - 1) { |char_idx| @lines[end_line][char_idx] = PATH_CHAR }
+  # draw the horizontal portion of the path (if any)
+  def draw_horizontal(start_char, end_char, end_line, l_to_r, skip_first)
+    proc = Proc.new { |char_idx| @lines[end_line][char_idx] = PATH_CHAR }
+    if l_to_r
+      start_char = skip_first ? start_char + 1 : start_char
+      start_char.upto(end_char - 1, &proc) 
     else
-      start_char.downto(end_char + 1) { |char_idx| @lines[end_line][char_idx] = PATH_CHAR }
+      start_char.downto(end_char + 1, &proc)
     end
   end
 
@@ -51,9 +56,11 @@ class Pather
   # and an array of indices of hash characters
   def lines_containing_hash_chars
     results = []
-    @lines.each_index do |line_idx| 
+    (0...@lines.length).each do |line_idx| 
       if @lines[line_idx].match('#')
-        positions = @lines[line_idx].enum_for(:scan, /#/).map { Regexp.last_match.begin(0) }
+        positions = @lines[line_idx].enum_for(:scan, /#/).map do 
+          Regexp.last_match.begin(0) 
+        end
         results << [line_idx, positions] if positions.length > 0
       end
     end
@@ -61,9 +68,10 @@ class Pather
   end
 end
 
+# Main script
 if ARGV.length != 2
   puts "Usage: ruby pather.rb <input file> <output file>"
 else
   pather = Pather.new(File.readlines(ARGV[0]))
-  File.open(ARGV[1], 'w') {|f| f.write(pather.with_path) }
+  File.open(ARGV[1], 'w') {|f| f.write(pather.draw) }
 end

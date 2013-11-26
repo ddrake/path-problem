@@ -32,7 +32,7 @@ describe Pather do
         ........................
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with the hash character positions reversed" do
@@ -59,7 +59,7 @@ describe Pather do
         ....#**************.....
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with only one line difference" do
@@ -78,7 +78,7 @@ describe Pather do
         ....**************#.....
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with only one line difference reversed" do
@@ -97,7 +97,7 @@ describe Pather do
         ....#**************.....
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with hashes in the same line" do
@@ -114,7 +114,7 @@ describe Pather do
         ....#*************#.....
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with hashes in the same column" do
@@ -133,7 +133,7 @@ describe Pather do
         ....#...................
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with adjacent hashes in the same line" do
@@ -150,7 +150,7 @@ describe Pather do
         ....##..................
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
   describe "with adjacent hashes in the same column" do
@@ -167,7 +167,7 @@ describe Pather do
         ....#...................
         ........................
       EOS
-      expect(Pather.new(@input.lines).with_path).to eq @expected
+      expect(Pather.new(@input.lines).draw).to eq @expected
     end
   end
 end
