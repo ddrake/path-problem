@@ -10,7 +10,7 @@ class Pather
   def initialize(lines)
     @lines = lines.to_a
     if @lines.map { |line| line.length }.uniq.length > 1
-      raise_error "Expected all lines to have the same number of characters"
+      raise "Expected all lines to have the same number of characters"
     end
   end
 
@@ -53,10 +53,10 @@ class Pather
   def hash_char_positions
     results = []
     (0...@lines.length).each do |line_idx|
-      if @lines[line_idx].match('#')
-        positions = @lines[line_idx].enum_for(:scan, /#/).each do
-          results << [line_idx, Regexp.last_match.begin(0)]
-        end
+      cur_line = @lines[line_idx]
+      next unless cur_line.match('#')
+      positions = cur_line.enum_for(:scan, /#/).each do
+        results << [line_idx, Regexp.last_match.begin(0)]
       end
     end
     results
