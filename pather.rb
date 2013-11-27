@@ -64,9 +64,11 @@ class Pather
 end
 
 # Main script
-if ARGV.length != 2
-  puts "Usage: ruby pather.rb <input file> <output file>"
-else
-  pather = Pather.new(File.readlines(ARGV[0]))
-  File.open(ARGV[1], 'w') {|f| f.write(pather.draw) }
+if __FILE__ == $0
+  if ARGV.length != 2
+    puts "Usage: ruby pather.rb <input file> <output file>"
+  else
+    pather = Pather.new(File.readlines(ARGV[0]))
+    File.open(ARGV[1], 'w') {|f| f.write(pather.draw) }
+  end
 end
