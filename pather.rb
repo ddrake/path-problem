@@ -51,16 +51,15 @@ class Pather
   # returns an array of position subarrays, 
   # each containing a line index and a character index
   def hash_char_positions
-    results = []
-    (0...@lines.length).each do |line_idx|
-      cur_line = @lines[line_idx]
-      next unless cur_line.match('#')
-      cur_line.enum_for(:scan, /#/).each do
-        results << [line_idx, Regexp.last_match.begin(0)]
+    [].tap do |results|
+      (0...@lines.length).each do |line_idx|
+        @lines[line_idx].enum_for(:scan, /#/).each do
+          results << [line_idx, Regexp.last_match.begin(0)]
+        end
       end
     end
-    results
   end
+
 end
 
 # Main script
