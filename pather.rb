@@ -55,7 +55,7 @@ class Pather
     (0...@lines.length).each do |line_idx|
       cur_line = @lines[line_idx]
       next unless cur_line.match('#')
-      positions = cur_line.enum_for(:scan, /#/).each do
+      cur_line.enum_for(:scan, /#/).each do
         results << [line_idx, Regexp.last_match.begin(0)]
       end
     end
