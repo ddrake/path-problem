@@ -52,14 +52,13 @@ class Pather
   # each containing a line index and a character index
   def hash_char_positions
     [].tap do |results|
-      (0...@lines.length).each do |line_idx|
-        @lines[line_idx].enum_for(:scan, /#/).each do
+      @lines.each.with_index do |line, line_idx|
+        line.enum_for(:scan, /#/).each do
           results << [line_idx, Regexp.last_match.begin(0)]
         end
       end
     end
   end
-
 end
 
 # Main script
